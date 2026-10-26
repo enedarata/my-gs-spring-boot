@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    options {
-        skipStagesAfterUnstable()
-    }
-
     tools {
         maven '3.9.11'
     }
@@ -18,8 +14,6 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'git --version'
-                sh 'mvn --version'
                 sh 'mvn clean test'
             }
         }
@@ -34,18 +28,6 @@ pipeline {
             steps {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline finished.'
-        }
-        success {
-            echo 'Build successful!'
-        }
-        failure {
-            echo 'Build failed!'
         }
     }
 }
